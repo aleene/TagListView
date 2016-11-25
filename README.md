@@ -51,7 +51,7 @@ You can also customize a particular tag, or set tap handler for it by manipulati
 let tagView = tagListView.addTag("blue")
 tagView.tagBackgroundColor = UIColor.blueColor()
 tagView.onTap = { tagView in
-    print("Don’t tap me!")
+    print("Don’t tap me!")jjj
 }
 ```
 
