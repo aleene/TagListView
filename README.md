@@ -30,18 +30,26 @@ tagListView.removeTag("meow") // all tags with title “meow” will be removed
 tagListView.removeAllTags()
 ```
 
+### Finding tags
+You can find the index of specific tags or titles with:
+```swift
+- tagListView.indexForSelectedTag: Int? {
+- tagListView.indecesForSelectedTags: [Int] {
+- tagListView.indecesWithTag(_ title: String) -> [Int] {
+```
+
 You can implement `TagListViewDelegate` to receive tag pressed event:
 
 ```swift
 // ...
 {
-    // ...
-    tagListView.delegate = self
-    // ...
+// ...
+tagListView.delegate = self
+// ...
 }
 
 func tagPressed(title: String, tagView: TagView, sender: TagListView) {
-    print("Tag pressed: \(title), \(sender)")
+print("Tag pressed: \(title), \(sender)")
 }
 ```
 
@@ -51,7 +59,7 @@ You can also customize a particular tag, or set tap handler for it by manipulati
 let tagView = tagListView.addTag("blue")
 tagView.tagBackgroundColor = UIColor.blueColor()
 tagView.onTap = { tagView in
-    print("Don’t tap me!")jjj
+print("Don’t tap me!")
 }
 ```
 
