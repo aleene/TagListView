@@ -74,6 +74,10 @@ class ViewController: UIViewController, TagListViewDelegate {
         sender.removeTagView(tagView)
     }
     
+    @IBAction func updateTitleDemo(_ sender: UIButton) {
+        biggerTagListView.setTitle("New title", at: 1)
+    }
+    
     @IBAction func unwindToViewController(_ segue:UIStoryboardSegue) {
     }
     
