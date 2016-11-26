@@ -144,6 +144,13 @@
                                     <segue destination="Txw-wG-gDy" kind="presentation" identifier="Show TagTableViewController Segue" id="4gs-VN-NZu"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ewF-mV-d0o">
+                                <rect key="frame" x="0.0" y="518" width="320" height="30"/>
+                                <state key="normal" title="Update a title"/>
+                                <connections>
+                                    <action selector="updateTitleDemo:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Phi-Hg-W5c"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -152,12 +159,15 @@
                             <constraint firstItem="n5B-Sc-Dfo" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailing" id="83g-dB-Ajs"/>
                             <constraint firstItem="4S7-JK-aUE" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailing" id="D2Y-5C-XGu"/>
                             <constraint firstAttribute="trailing" secondItem="zcN-hg-Ja4" secondAttribute="trailing" id="EVN-ej-jD8"/>
+                            <constraint firstAttribute="trailing" secondItem="ewF-mV-d0o" secondAttribute="trailing" id="JgK-Lp-XH0"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="zcN-hg-Ja4" secondAttribute="bottom" id="Kvx-FB-Az9"/>
                             <constraint firstItem="zcN-hg-Ja4" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="LYO-8Q-lRF"/>
                             <constraint firstItem="2SR-iU-xRm" firstAttribute="top" secondItem="n5B-Sc-Dfo" secondAttribute="bottom" constant="8" id="Y6E-lw-HXe"/>
                             <constraint firstItem="4S7-JK-aUE" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="d8Y-4V-oL5"/>
                             <constraint firstItem="2SR-iU-xRm" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailing" id="fuA-P4-SWk"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="ewF-mV-d0o" secondAttribute="bottom" constant="20" id="gt0-2p-kYz"/>
                             <constraint firstItem="n5B-Sc-Dfo" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="n0l-5w-CYK"/>
+                            <constraint firstItem="ewF-mV-d0o" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="qfh-0l-W9v"/>
                             <constraint firstItem="2SR-iU-xRm" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="tke-jW-Oh5"/>
                         </constraints>
                     </view>
