@@ -5,11 +5,10 @@
 //  Created by Dongyuan Liu on 2015-05-09.
 //  Copyright (c) 2015 Ela. All rights reserved.
 //
-
 import UIKit
 
 class ViewController: UIViewController, TagListViewDelegate {
-
+    
     @IBOutlet weak var tagListView: TagListView!
     @IBOutlet weak var biggerTagListView: TagListView!
     @IBOutlet weak var biggestTagListView: TagListView!
@@ -33,7 +32,7 @@ class ViewController: UIViewController, TagListViewDelegate {
         tagView.onTap = { tagView in
             print("Don’t tap me!")
         }
-
+        
         tagListView.insertTag("This should be the third tag", at: 2)
         
         biggerTagListView.delegate = self
@@ -64,11 +63,15 @@ class ViewController: UIViewController, TagListViewDelegate {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
     // MARK: TagListViewDelegate
     func tagPressed(_ title: String, tagView: TagView, sender: TagListView) {
         print("Tag pressed: \(title), \(sender)")
         tagView.isSelected = !tagView.isSelected
+        if let index = sender.indexForSelectedTag {
+            print("This tag has index:", index)
+        }
+
     }
     
     func tagRemoveButtonPressed(_ title: String, tagView: TagView, sender: TagListView) {
@@ -76,4 +79,3 @@ class ViewController: UIViewController, TagListViewDelegate {
         sender.removeTagView(tagView)
     }
 }
-
