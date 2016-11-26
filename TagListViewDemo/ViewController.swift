@@ -9,10 +9,44 @@ import UIKit
 
 class ViewController: UIViewController, TagListViewDelegate {
     
-    @IBOutlet weak var tagListView: TagListView!
-    @IBOutlet weak var biggerTagListView: TagListView!
-    @IBOutlet weak var biggestTagListView: TagListView!
+    @IBOutlet weak var tagListView: TagListView! {
+        didSet {
+            tagListView.allowsMultipleSelection = multipleSelectionIsAllowed
+        }
+    }
+
+    @IBOutlet weak var biggerTagListView: TagListView! {
+        didSet {
+            biggerTagListView.allowsMultipleSelection = multipleSelectionIsAllowed
+        }
+    }
+
+    @IBOutlet weak var biggestTagListView: TagListView! {
+        didSet {
+            if multipleSelectionSwitch != nil {
+                multipleSelectionSwitch.setOn(multipleSelectionIsAllowed, animated: true)
+            }
+        }
+    }
+
+    @IBAction func multipleSelectionSwitch(_ sender: UISwitch) {
+        multipleSelectionIsAllowed = !multipleSelectionIsAllowed
+    }
     
+    @IBOutlet weak var multipleSelectionSwitch: UISwitch! {
+        didSet {
+            multipleSelectionSwitch.setOn(multipleSelectionIsAllowed, animated: true)
+        }
+    }
+
+    private var multipleSelectionIsAllowed = false {
+        didSet {
+            tagListView.allowsMultipleSelection = multipleSelectionIsAllowed
+            biggerTagListView.allowsMultipleSelection = multipleSelectionIsAllowed
+            biggestTagListView.allowsMultipleSelection = multipleSelectionIsAllowed
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -52,6 +86,7 @@ class ViewController: UIViewController, TagListViewDelegate {
         biggestTagListView.addTags(["all", "your", "tag", "are", "belong", "to", "us"])
         biggestTagListView.alignment = .right
         
+        multipleSelectionIsAllowed = false
     }
     
     override func didReceiveMemoryWarning() {
@@ -62,11 +97,22 @@ class ViewController: UIViewController, TagListViewDelegate {
     // MARK: TagListViewDelegate
     func tagPressed(_ title: String, tagView: TagView, sender: TagListView) {
         print("Tag pressed: \(title), \(sender)")
-        tagView.isSelected = !tagView.isSelected
-        if let index = sender.indexForSelectedTag {
-            print("This tag has index:", index)
+        if sender.allowsMultipleSelection {
+            let indeces = sender.indecesForSelectedTags
+            if !indeces.isEmpty {
+                for index in indeces {
+                    if sender.tagViews[index] == tagView {
+                        print("This tag is selected and has index:", index)
+                    }
+                }
+                print(sender.selectedTags().count, "have been selected")
+            }
+        } else {
+            if let index = sender.indexForSelectedTag {
+                print("This tag is selected and has index:", index)
+                print(sender.selectedTags().count, "have been selected")
+            }
         }
-
     }
     
     func tagRemoveButtonPressed(_ title: String, tagView: TagView, sender: TagListView) {
