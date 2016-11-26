@@ -10,6 +10,10 @@ import UIKit
 @objc public protocol TagListViewDelegate {
     @objc optional func tagPressed(_ title: String, tagView: TagView, sender: TagListView) -> Void
     @objc optional func tagRemoveButtonPressed(_ title: String, tagView: TagView, sender: TagListView) -> Void
+    @objc optional func tagListView(_ tagListView: TagListView, didSelectTagAtIndex index: Int) -> Void
+    @objc optional func tagListView(_ tagListView: TagListView, willSelectTagAtIndex index: Int) -> Int
+    @objc optional func tagListView(_ tagListView: TagListView, didDeselectTagAtIndex index: Int) -> Void
+    @objc optional func tagListView(_ tagListView: TagListView, willDeselectTagAtIndex index: Int) -> Int
 }
 
 @IBDesignable
@@ -205,7 +209,7 @@ open class TagListView: UIView {
     open override func prepareForInterfaceBuilder() {
         addTag("Welcome")
         addTag("to")
-        addTag("TagListView").isSelected = true
+        selectTag(at: tagViews.index(of: addTag("TagListView"))!)
     }
     
     // MARK: - Layout
@@ -397,10 +401,62 @@ open class TagListView: UIView {
         rearrangeViews()
     }
     
+    // MARK : Selection functions
+
     open func selectedTags() -> [TagView] {
         return tagViews.filter() { $0.isSelected == true }
     }
     
+    // Maybe this should be deprecated as it exposes to TagView
+    open func deSelectTagIn(_ tagView: TagView) {
+        if let validIndex = tagViews.index(of: tagView) {
+            filterDeselectionAt(validIndex)
+        }
+    }
+    
+    private func filterDeselectionAt(_ index: Int) {
+        // has a deselection filter been defined
+        if delegate?.tagListView?(self, willDeselectTagAtIndex: index) != nil {
+            // is it allowed to change the deselect state of this tag?
+            if index == delegate?.tagListView?(self, willDeselectTagAtIndex: index) {
+                // then select the tag
+                deselectTag(at: index)
+                delegate?.tagListView?(self, didDeselectTagAtIndex: index)
+            } else {
+                // no deselection allowed
+            }
+        } else {
+            // always allow
+            deselectTag(at: index)
+            delegate?.tagListView?(self, didDeselectTagAtIndex: index)
+        }
+        
+    }
+    
+    // Maybe this should be deprecated as it exposes to TagView
+    open func selectTagIn(_ tagView: TagView) {
+        if let validIndex = tagViews.index(of: tagView) {
+            filterSelectionAt(validIndex)
+        }
+    }
+    
+    private func filterSelectionAt(_ index: Int) {
+        // has a selection filter been defined?
+        if delegate?.tagListView?(self, willSelectTagAtIndex: index) != nil {
+            // is it allowed to change the select state of this tag?
+            if index == delegate?.tagListView?(self, willSelectTagAtIndex: index) {
+                // then select the tag
+                selectTag(at: index)
+                delegate?.tagListView?(self, didSelectTagAtIndex: index)
+            } else {
+                // no selection allowed
+            }
+        } else {
+            selectTag(at: index)
+            delegate?.tagListView?(self, didSelectTagAtIndex: index)
+        }
+    }
+
     // MARK: Index functions
     
     var indexForSelectedTag: Int? {
@@ -434,10 +490,34 @@ open class TagListView: UIView {
         return indeces
     }
     
+    var allowsMultipleSelection: Bool = false
+    
+    func deselectTag(at index: Int) {
+        tagViews[index].isSelected = false
+    }
+    
+    func selectTag(at index: Int) {
+        if !allowsMultipleSelection {
+            deselectAllTags()
+        }
+        tagViews[index].isSelected = true
+    }
+    
+    private func deselectAllTags() {
+        for tagView in self.tagViews {
+            tagView.isSelected = false
+        }
+        
+    }
+
     // MARK: - Events
     
+    // Maybe this should be deprecated as it exposes to TagView
     func tagPressed(_ sender: TagView!) {
         sender.onTap?(sender)
+        if let currentIndex = self.tagViews.index(of: sender) {
+            sender.isSelected ? filterDeselectionAt(currentIndex) : filterSelectionAt(currentIndex)
+        }
         delegate?.tagPressed?(sender.currentTitle ?? "", tagView: sender, sender: self)
     }
     
