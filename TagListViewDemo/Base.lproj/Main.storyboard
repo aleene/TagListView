@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="15G1108" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina3_5" orientation="portrait">
+    <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -18,7 +18,7 @@
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4S7-JK-aUE" customClass="TagListView" customModule="TagListViewDemo" customModuleProvider="target">
@@ -137,6 +137,13 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zcN-hg-Ja4">
+                                <rect key="frame" x="0.0" y="538" width="320" height="30"/>
+                                <state key="normal" title="Tableview demo"/>
+                                <connections>
+                                    <segue destination="Txw-wG-gDy" kind="presentation" identifier="Show TagTableViewController Segue" id="4gs-VN-NZu"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -144,6 +151,9 @@
                             <constraint firstItem="4S7-JK-aUE" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="4wQ-3D-cEP"/>
                             <constraint firstItem="n5B-Sc-Dfo" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailing" id="83g-dB-Ajs"/>
                             <constraint firstItem="4S7-JK-aUE" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailing" id="D2Y-5C-XGu"/>
+                            <constraint firstAttribute="trailing" secondItem="zcN-hg-Ja4" secondAttribute="trailing" id="EVN-ej-jD8"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="zcN-hg-Ja4" secondAttribute="bottom" id="Kvx-FB-Az9"/>
+                            <constraint firstItem="zcN-hg-Ja4" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="LYO-8Q-lRF"/>
                             <constraint firstItem="2SR-iU-xRm" firstAttribute="top" secondItem="n5B-Sc-Dfo" secondAttribute="bottom" constant="8" id="Y6E-lw-HXe"/>
                             <constraint firstItem="4S7-JK-aUE" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="d8Y-4V-oL5"/>
                             <constraint firstItem="2SR-iU-xRm" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailing" id="fuA-P4-SWk"/>
@@ -159,7 +169,70 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="365.625" y="466.25"/>
+            <point key="canvasLocation" x="365.625" y="465.84507042253523"/>
+        </scene>
+        <!--Tag Table View Controller-->
+        <scene sceneID="ca1-ja-j4H">
+            <objects>
+                <tableViewController id="Txw-wG-gDy" customClass="TagTableViewController" customModule="TagListViewDemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="C43-os-6Dr">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <navigationBar key="tableHeaderView" contentMode="scaleToFill" id="Bfn-VM-xCH">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <items>
+                                <navigationItem title="Tableview demo" id="SED-nm-sgH">
+                                    <barButtonItem key="rightBarButtonItem" style="plain" systemItem="done" id="UKu-KB-dfz">
+                                        <connections>
+                                            <segue destination="ZAG-WY-VWL" kind="unwind" unwindAction="unwindToViewController:" id="3y1-Wm-Ltw"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </navigationItem>
+                            </items>
+                        </navigationBar>
+                        <view key="tableFooterView" contentMode="scaleToFill" id="60k-qD-HNK">
+                            <rect key="frame" x="0.0" y="116" width="320" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </view>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TagListView Cell" id="pwx-ec-0YO" customClass="TagsTableViewCell" customModule="TagListViewDemo" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="72" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="pwx-ec-0YO" id="QCk-Wn-Noq">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="p72-Tq-uQj" customClass="TagListView" customModule="TagListViewDemo" customModuleProvider="target">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="p72-Tq-uQj" secondAttribute="trailing" id="0Ia-CR-uWa"/>
+                                        <constraint firstItem="p72-Tq-uQj" firstAttribute="leading" secondItem="QCk-Wn-Noq" secondAttribute="leading" id="BYB-R9-V4Z"/>
+                                        <constraint firstAttribute="bottom" secondItem="p72-Tq-uQj" secondAttribute="bottom" id="Fvc-Yb-jg2"/>
+                                        <constraint firstItem="p72-Tq-uQj" firstAttribute="top" secondItem="QCk-Wn-Noq" secondAttribute="top" id="egg-13-xuk"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="tagListView" destination="p72-Tq-uQj" id="Omb-u0-IJj"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="Txw-wG-gDy" id="CCa-80-mai"/>
+                            <outlet property="delegate" destination="Txw-wG-gDy" id="gnY-Rf-nen"/>
+                        </connections>
+                    </tableView>
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jTD-8P-7oC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="ZAG-WY-VWL" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="1215" y="467.95774647887322"/>
         </scene>
     </scenes>
 </document>
