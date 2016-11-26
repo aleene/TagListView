@@ -36,6 +36,29 @@ class TagTableViewController: UITableViewController, TagListViewDelegate {
         return cell
     }
     
+    // MARK: - TagListView Delegates
+    
+    func tagListView(_ tagListView: TagListView, didSelectTagAtIndex index: Int) {
+        print("The tag with index", index, "has been selected")
+        print(tagListView.selectedTags().count, "have been selected")
+    }
+    
+    func tagListView(_ tagListView: TagListView, willSelectTagAtIndex index: Int) -> Int {
+        print("The tag with index ", index, "will be selected")
+        return index
+        // return a negative number is a tag at index may not be selected
+    }
+    
+    func tagListView(_ tagListView: TagListView, didDeselectTagAtIndex index: Int) {
+        print("The tag with index ", index, "has been DEselected")
+    }
+    
+    func tagListView(_ tagListView: TagListView, willDeselectTagAtIndex index: Int) -> Int {
+        print("The tag with index ", index, "will be DEselected")
+        return index
+        // return a negative number is a tag at index may not be selected
+    }
+
     // This button allows to toggle between editMode and non-editMode
     @IBAction func editBarButtonTapped(_ sender: UIBarButtonItem) {
         editMode = !editMode
