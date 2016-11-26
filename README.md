@@ -27,7 +27,15 @@ tagListView.setTitle("New Title of tag", at: 3) // changes the taag at position 
 tagListView.removeTag("meow") // all tags with title “meow” will be removed
 tagListView.removeAllTags()
 ```
+### Selecting and deselecting tags
+```swift
+tagListView.selectedTags() // will give you the tagView of all the tags.
+tagListView.deselectTag(at:4) // deselect tag at index 4
+tagListView.selectTag(at:3) // select tag at index 3
+tagListView.deselectAllTags() // deselect all tags
+tagListView.allowsMultipleSelection = true // allow the user to select multiple tags
 
+```
 ### Finding tags
 You can find the index of specific tags or titles with:
 ```swift
