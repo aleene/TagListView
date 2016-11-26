@@ -36,19 +36,22 @@ You can find the index of specific tags or titles with:
 - tagListView.indecesWithTag(_ title: String) -> [Int] {
 ```
 
-You can implement `TagListViewDelegate` to receive tag pressed event:
-
+### Delegate functions
+TagViewList support several delegate functions, which you can use. First setup your viewController as delegate:
 ```swift
-// ...
-{
-// ...
+class YourViewController: UIViewController, TagListViewDelegate
+```
+Then assign yourself as a delegate of TagListView. For instance in a didSet of your TagListView outlet:
+```swift
 tagListView.delegate = self
-// ...
-}
-
-func tagPressed(title: String, tagView: TagView, sender: TagListView) {
-print("Tag pressed: \(title), \(sender)")
-}
+```
+You can intercept events around selecting tags:
+```swift
+func tagListView(_ tagListView: TagListView, didSelectTagAtIndex index: Int) -> Void
+func tagListView(_ tagListView: TagListView, willSelectTagAtIndex index: Int) -> Int
+func tagListView(_ tagListView: TagListView, didDeselectTagAtIndex index: Int) -> Void
+func tagListView(_ tagListView: TagListView, willDeselectTagAtIndex index: Int) -> Int
+func tagPressed(title: String, tagView: TagView, sender: TagListView)
 ```
 ### Layouting tags
 It is also possible to layout the tagViews is a tagListView with:
