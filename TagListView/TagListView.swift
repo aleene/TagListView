@@ -328,6 +328,7 @@ open class TagListView: UIView {
         return addTagViews(tagViews)
     }
     
+    @discardableResult
     open func addTagViews(_ tagViews: [TagView]) -> [TagView] {
         for tagView in tagViews {
             self.tagViews.append(tagView)
@@ -358,6 +359,12 @@ open class TagListView: UIView {
         rearrangeViews()
         
         return tagView
+    }
+    
+    open func setTitle(_ title: String, at index: Int) {
+        removeTagView(tagViews[index])
+        insertTag(title, at: index)
+        // a unsatisfactory solution but it works.
     }
     
     open func removeTag(_ title: String) {
