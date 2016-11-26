@@ -22,7 +22,7 @@ You can add tag to the tag list view, or set custom font and alignment through c
 ```swift
 tagListView.addTag("TagListView")
 tagListView.insertTag("This should be the second tag", at: 1)
-
+tagListView.addTags(["Add","two","tags"])
 tagListView.removeTag("meow") // all tags with title “meow” will be removed
 tagListView.removeAllTags()
 ```
