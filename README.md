@@ -23,6 +23,7 @@ You can add tag to the tag list view, or set custom font and alignment through c
 tagListView.addTag("TagListView")
 tagListView.insertTag("This should be the second tag", at: 1)
 tagListView.addTags(["Add","two","tags"])
+tagListView.setTitle("New Title of tag", at: 3) // changes the taag at position 3
 tagListView.removeTag("meow") // all tags with title “meow” will be removed
 tagListView.removeAllTags()
 ```
