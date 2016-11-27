@@ -34,7 +34,18 @@ tagListView.deselectTag(at:4) // deselect tag at index 4
 tagListView.selectTag(at:3) // select tag at index 3
 tagListView.deselectAllTags() // deselect all tags
 tagListView.allowsMultipleSelection = true // allow the user to select multiple tags
-
+```
+### Edit mode
+TagListView can be set as editable or not. If the TagListView is editable, any tapping on a tag will be interpreted as a removal instruction. 
+As default a tagListView is not editable.
+```swift
+tagListView.isEditable = true // sets tagListView in editable-mode.
+```
+In editMode the removability of a tag will be highlighted with a special icon. You can set some characteristcisof this icon with:
+```swift
+tagListView.removeIconLineWidth = 1
+tagListView.removeButtonIconSize = 12
+tagListView.removeIconLineColor = UIColor.white.withAlphaComponent(0.54)
 ```
 ### Finding tags
 You can find the index of specific tags or titles with:
@@ -53,13 +64,19 @@ Then assign yourself as a delegate of TagListView. For instance in a didSet of y
 ```swift
 tagListView.delegate = self
 ```
-You can intercept events around selecting tags:
+You can intercept events around tapping on tags. This will set a tag to being selected.
 ```swift
 func tagListView(_ tagListView: TagListView, didSelectTagAtIndex index: Int) -> Void
 func tagListView(_ tagListView: TagListView, willSelectTagAtIndex index: Int) -> Int
 func tagListView(_ tagListView: TagListView, didDeselectTagAtIndex index: Int) -> Void
 func tagListView(_ tagListView: TagListView, willDeselectTagAtIndex index: Int) -> Int
 func tagPressed(title: String, tagView: TagView, sender: TagListView)
+```
+You can intercept the edit-instructions with the appropriate delegate functions.
+```swift
+func tagListView(_ tagListView: TagListView, canEditTagAtIndex index: Int) -> Bool
+func tagListView(_ tagListView: TagListView, willBeginEditingTagAt index: Int)
+func tagListView(_ tagListView: TagListView, didEndEditingTagAt index: Int)
 ```
 ### Layouting tags
 It is also possible to layout the tagViews is a tagListView with:
