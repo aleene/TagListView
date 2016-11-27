@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TagTableViewController: UITableViewController, TagListViewDelegate {
+class TagTableViewController: UITableViewController, TagListViewDelegate, TagListViewDatasource {
 
 
     // MARK: - Table view data source
@@ -31,6 +31,7 @@ class TagTableViewController: UITableViewController, TagListViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: Storyboard.TagListViewCellIdentifier, for: indexPath) as! TagsTableViewCell
         cell.tagList = tags
         cell.tagListView?.delegate = self
+        cell.tagListView?.datasource = self
         cell.editMode = editMode
         return cell
     }
@@ -39,7 +40,7 @@ class TagTableViewController: UITableViewController, TagListViewDelegate {
     
     func tagListView(_ tagListView: TagListView, didSelectTagAtIndex index: Int) {
         print("The tag with index", index, "has been selected")
-        print(tagListView.selectedTags().count, "have been selected")
+        print(tagListView.selectedTags().count, "tags have been selected")
         if editMode {
             tagListView.removeTag(at: index)
             tags.remove(at: index)
@@ -63,6 +64,7 @@ class TagTableViewController: UITableViewController, TagListViewDelegate {
     }
 
     func tagListView(_ tagListView: TagListView, canEditTagAtIndex index: Int) -> Bool {
+        print("The tag with ", index, "can be edited")
         return editMode
     }
 
