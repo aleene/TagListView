@@ -110,7 +110,7 @@ class ViewController: UIViewController, TagListViewDelegate {
         } else {
             if let index = sender.indexForSelectedTag {
                 print("This tag is selected and has index:", index)
-                print(sender.selectedTags().count, "have been selected")
+                print(sender.selectedTags().count, "tags have been selected")
             }
         }
     }
