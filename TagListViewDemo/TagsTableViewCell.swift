@@ -13,23 +13,31 @@ class TagsTableViewCell: UITableViewCell {
     
     var tagList: [String] = [] {
         didSet {
-            setTags()
+            setupTagListViewWithData()
         }
     }
     
-    private func setTags() {
-        tagListView.removeAllTags()
-        tagListView.addTags(tagList)
-
+    private func setupTagListViewWithData() {
+        if tagListView != nil {
+            tagListView.removeAllTags()
+            tagListView.addTags(tagList)
+            tagListView.editable = editMode
+        }
     }
 
+    var editMode = false {
+        didSet {
+            setupTagListViewWithData()
+        }
+    }
+    
     @IBOutlet weak var tagListView: TagListView! {
         didSet {
             tagListView.textFont = UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)
             tagListView.alignment = .center
             tagListView.tagBackgroundColor = UIColor.green
             tagListView.cornerRadius = 10
-            setTags()
+            setupTagListViewWithData()
         }
     }
 }
