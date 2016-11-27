@@ -14,10 +14,12 @@ import UIKit
     @objc optional func tagListView(_ tagListView: TagListView, willSelectTagAtIndex index: Int) -> Int
     @objc optional func tagListView(_ tagListView: TagListView, didDeselectTagAtIndex index: Int) -> Void
     @objc optional func tagListView(_ tagListView: TagListView, willDeselectTagAtIndex index: Int) -> Int
-    @objc optional func tagListView(_ tagListView: TagListView, canEditTagAtIndex index: Int) -> Bool
     @objc optional func tagListView(_ tagListView: TagListView, willBeginEditingTagAt index: Int)
     @objc optional func tagListView(_ tagListView: TagListView, didEndEditingTagAt index: Int)
+}
 
+@objc public protocol TagListViewDatasource {
+    @objc optional func tagListView(_ tagListView: TagListView, canEditTagAtIndex index: Int) -> Bool
 }
 
 @IBDesignable
@@ -197,6 +199,7 @@ open class TagListView: UIView {
     }
     
     @IBOutlet open weak var delegate: TagListViewDelegate?
+    @IBOutlet open weak var datasource: TagListViewDatasource?
     
     open private(set) var tagViews: [TagView] = []
     private(set) var tagBackgroundViews: [UIView] = []
@@ -377,15 +380,22 @@ open class TagListView: UIView {
     
     // MARK: editable = true functions
     
-    open var editable = false {
+    open var editAccessory = " X"
+    
+    open var isEditable = false {
         didSet {
-            if editable {
-                for tagView in tagViews {
-                    tagView.enableRemoveButton = true
+            if isEditable {
+                for (index, tagView) in tagViews.enumerated() {
+                    if let title = tagView.titleLabel?.text {
+                        setTitle(title + editAccessory, at:index)
+                    }
                 }
             } else {
-                for tagView in tagViews {
-                    tagView.enableRemoveButton = false
+                for (index, tagView) in tagViews.enumerated() {
+                    if let title = tagView.titleLabel?.text {
+                        let newTitle = title.replacingOccurrences(of: editAccessory, with: "")
+                        setTitle(newTitle, at:index)
+                    }
                 }
             }
         }
@@ -396,6 +406,7 @@ open class TagListView: UIView {
     open func removeTag(_ title: String) {
         // loop the array in reversed order to remove items during loop
         for index in stride(from: (tagViews.count - 1), through: 0, by: -1) {
+            
             let tagView = tagViews[index]
             if tagView.currentTitle == title {
                 removeTagView(tagView)
@@ -404,13 +415,13 @@ open class TagListView: UIView {
     }
     
     open func removeTag(at index: Int) {
-        if delegate?.tagListView?(self, canEditTagAtIndex: index) != nil &&
-            delegate!.tagListView!(self, canEditTagAtIndex: index) {
-            if delegate?.tagListView?(self, canEditTagAtIndex: index) != nil {
+        if datasource?.tagListView?(self, canEditTagAtIndex: index) != nil &&
+            datasource!.tagListView!(self, canEditTagAtIndex: index) {
+            if datasource?.tagListView?(self, canEditTagAtIndex: index) != nil {
                 delegate!.tagListView!(self, willBeginEditingTagAt: index)
             }
             removeTagView(tagViews[index])
-            if delegate?.tagListView?(self, canEditTagAtIndex: index) != nil {
+            if datasource?.tagListView?(self, canEditTagAtIndex: index) != nil {
                 delegate!.tagListView!(self, didEndEditingTagAt: index)
             }
         }
@@ -423,7 +434,6 @@ open class TagListView: UIView {
             tagViews.remove(at: index)
             tagBackgroundViews.remove(at: index)
         }
-        
         rearrangeViews()
     }
     
@@ -478,22 +488,24 @@ open class TagListView: UIView {
     }
     
     private func filterDeselectionAt(_ index: Int) {
-        // has a deselection filter been defined
-        if delegate?.tagListView?(self, willDeselectTagAtIndex: index) != nil {
-            // is it allowed to change the deselect state of this tag?
-            if index == delegate?.tagListView?(self, willDeselectTagAtIndex: index) {
-                // then select the tag
+        // deselection only works when not in editMode
+        if !isEditable {
+            // has a deselection filter been defined
+            if delegate?.tagListView?(self, willDeselectTagAtIndex: index) != nil {
+                // is it allowed to change the deselect state of this tag?
+                if index == delegate?.tagListView?(self, willDeselectTagAtIndex: index) {
+                    // then select the tag
+                    deselectTag(at: index)
+                    delegate?.tagListView?(self, didDeselectTagAtIndex: index)
+                } else {
+                    // no deselection allowed
+                }
+            } else {
+                // always allow
                 deselectTag(at: index)
                 delegate?.tagListView?(self, didDeselectTagAtIndex: index)
-            } else {
-                // no deselection allowed
             }
-        } else {
-            // always allow
-            deselectTag(at: index)
-            delegate?.tagListView?(self, didDeselectTagAtIndex: index)
         }
-        
     }
     
     // Maybe this should be deprecated as it exposes to TagView
@@ -504,19 +516,21 @@ open class TagListView: UIView {
     }
     
     private func filterSelectionAt(_ index: Int) {
-        // has a selection filter been defined?
-        if delegate?.tagListView?(self, willSelectTagAtIndex: index) != nil {
-            // is it allowed to change the select state of this tag?
-            if index == delegate?.tagListView?(self, willSelectTagAtIndex: index) {
-                // then select the tag
+        if !isEditable {
+            // has a selection filter been defined?
+            if delegate?.tagListView?(self, willSelectTagAtIndex: index) != nil {
+                // is it allowed to change the select state of this tag?
+                if index == delegate?.tagListView?(self, willSelectTagAtIndex: index) {
+                    // then select the tag
+                    selectTag(at: index)
+                    delegate?.tagListView?(self, didSelectTagAtIndex: index)
+                } else {
+                    // no selection allowed
+                }
+            } else {
                 selectTag(at: index)
                 delegate?.tagListView?(self, didSelectTagAtIndex: index)
-            } else {
-                // no selection allowed
             }
-        } else {
-            selectTag(at: index)
-            delegate?.tagListView?(self, didSelectTagAtIndex: index)
         }
     }
 
@@ -557,8 +571,14 @@ open class TagListView: UIView {
     // Maybe this should be deprecated as it exposes to TagView
     func tagPressed(_ sender: TagView!) {
         sender.onTap?(sender)
-        if let currentIndex = self.tagViews.index(of: sender) {
-            sender.isSelected ? filterDeselectionAt(currentIndex) : filterSelectionAt(currentIndex)
+        if isEditable {
+            if let currentIndex = self.tagViews.index(of: sender) {
+                removeTag(at: currentIndex)
+            }
+        } else {
+            if let currentIndex = self.tagViews.index(of: sender) {
+                sender.isSelected ? filterDeselectionAt(currentIndex) : filterSelectionAt(currentIndex)
+            }
         }
         delegate?.tagPressed?(sender.currentTitle ?? "", tagView: sender, sender: self)
     }
