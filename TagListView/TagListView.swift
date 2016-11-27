@@ -14,6 +14,10 @@ import UIKit
     @objc optional func tagListView(_ tagListView: TagListView, willSelectTagAtIndex index: Int) -> Int
     @objc optional func tagListView(_ tagListView: TagListView, didDeselectTagAtIndex index: Int) -> Void
     @objc optional func tagListView(_ tagListView: TagListView, willDeselectTagAtIndex index: Int) -> Int
+    @objc optional func tagListView(_ tagListView: TagListView, canEditTagAtIndex index: Int) -> Bool
+    @objc optional func tagListView(_ tagListView: TagListView, willBeginEditingTagAt index: Int)
+    @objc optional func tagListView(_ tagListView: TagListView, didEndEditingTagAt index: Int)
+
 }
 
 @IBDesignable
@@ -371,6 +375,24 @@ open class TagListView: UIView {
         // a unsatisfactory solution but it works.
     }
     
+    // MARK: editable = true functions
+    
+    open var editable = false {
+        didSet {
+            if editable {
+                for tagView in tagViews {
+                    tagView.enableRemoveButton = true
+                }
+            } else {
+                for tagView in tagViews {
+                    tagView.enableRemoveButton = false
+                }
+            }
+        }
+    }
+    
+    open var editableAccessory : String? = nil
+    
     open func removeTag(_ title: String) {
         // loop the array in reversed order to remove items during loop
         for index in stride(from: (tagViews.count - 1), through: 0, by: -1) {
@@ -381,6 +403,20 @@ open class TagListView: UIView {
         }
     }
     
+    open func removeTag(at index: Int) {
+        if delegate?.tagListView?(self, canEditTagAtIndex: index) != nil &&
+            delegate!.tagListView!(self, canEditTagAtIndex: index) {
+            if delegate?.tagListView?(self, canEditTagAtIndex: index) != nil {
+                delegate!.tagListView!(self, willBeginEditingTagAt: index)
+            }
+            removeTagView(tagViews[index])
+            if delegate?.tagListView?(self, canEditTagAtIndex: index) != nil {
+                delegate!.tagListView!(self, didEndEditingTagAt: index)
+            }
+        }
+    }
+    
+
     open func removeTagView(_ tagView: TagView) {
         tagView.removeFromSuperview()
         if let index = tagViews.index(of: tagView) {
@@ -390,6 +426,7 @@ open class TagListView: UIView {
         
         rearrangeViews()
     }
+    
     
     open func removeAllTags() {
         let views = tagViews as [UIView] + tagBackgroundViews
