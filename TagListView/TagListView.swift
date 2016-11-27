@@ -401,8 +401,34 @@ open class TagListView: UIView {
         rearrangeViews()
     }
     
+    public var tagsCount: Int {
+        get {
+            return tagViews.count
+        }
+    }
+    
     // MARK : Selection functions
 
+    
+    var allowsMultipleSelection: Bool = false
+    
+    func deselectTag(at index: Int) {
+        tagViews[index].isSelected = false
+    }
+    
+    func selectTag(at index: Int) {
+        if !allowsMultipleSelection {
+            deselectAllTags()
+        }
+        tagViews[index].isSelected = true
+    }
+    
+    private func deselectAllTags() {
+        for tagView in self.tagViews {
+            tagView.isSelected = false
+        }
+    }
+    
     open func selectedTags() -> [TagView] {
         return tagViews.filter() { $0.isSelected == true }
     }
@@ -489,27 +515,6 @@ open class TagListView: UIView {
         }
         return indeces
     }
-    
-    var allowsMultipleSelection: Bool = false
-    
-    func deselectTag(at index: Int) {
-        tagViews[index].isSelected = false
-    }
-    
-    func selectTag(at index: Int) {
-        if !allowsMultipleSelection {
-            deselectAllTags()
-        }
-        tagViews[index].isSelected = true
-    }
-    
-    private func deselectAllTags() {
-        for tagView in self.tagViews {
-            tagView.isSelected = false
-        }
-        
-    }
-
     // MARK: - Events
     
     // Maybe this should be deprecated as it exposes to TagView
