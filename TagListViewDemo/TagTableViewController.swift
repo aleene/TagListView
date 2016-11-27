@@ -22,9 +22,7 @@ class TagTableViewController: UITableViewController, TagListViewDelegate {
     }
     
     private var tags = ["This", "is", "a", "set", "of", "tags", "in", "a", "tableViewCell", ".", "There", "are", "a", "lot", "of", "tags", "defined", "here", "in", "order", "to", "show", "the", "dynamic", "cell", "height", "LAST ONE"]
-    
-    private var editMode = false
-    
+        
     fileprivate struct Storyboard {
         static let TagListViewCellIdentifier = "TagListView Cell"
     }
@@ -59,12 +57,6 @@ class TagTableViewController: UITableViewController, TagListViewDelegate {
         // return a negative number is a tag at index may not be selected
     }
 
-    // This button allows to toggle between editMode and non-editMode
-    @IBAction func editBarButtonTapped(_ sender: UIBarButtonItem) {
-        editMode = !editMode
-        tableView.reloadData()
-    }
-    
     // MARK: - View Controller Lifecycle
 
     override func viewDidLoad() {
