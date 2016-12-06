@@ -22,7 +22,6 @@ The class can be used in unmanaged and managed mode. In unmanaged mode you add, 
 
 ## Unmanaged functions
 You can add tag to the tag list view, or set custom font and alignment through code:
-
 ```swift
 tagListView.addTag("TagListView")
 tagListView.insertTag("This should be the second tag", at: 1)
@@ -119,7 +118,7 @@ tagListView.alignment.shadowRadius = 2
 tagListView.alignment.shadowOpacity = 0.4
 tagListView.alignment.shadowColor = UIColor.black
 tagListView.alignment.shadowOffset = CGSize(width: 1, height: 1)
-
+tagListView.hasPrefixLabel = true
 ```
 
 You can also customize a particular tag, or set tap handler for it by manipulating the `TagView` object returned by `addTag(_:)`:
