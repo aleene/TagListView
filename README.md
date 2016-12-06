@@ -13,10 +13,11 @@ Supports Storyboard, Auto Layout, and @IBDesignable.
 
 ## Usage
 
-The most convinient way is to use Storyboard. Drag a view to Storyboard and set Class to `TagListView` (if you use CocoaPods, also set Module to `TagListView`). Then you can play with the attributes in the right pane, and see the preview in real time thanks to [@IBDesignable](http://nshipster.com/ibinspectable-ibdesignable/).
+The most convenient way is to use Storyboard. Drag a view to Storyboard and set Class to `TagListView` (if you use CocoaPods, also set Module to `TagListView`). Then you can play with the attributes in the right pane, and see the preview in real time thanks to [@IBDesignable](http://nshipster.com/ibinspectable-ibdesignable/).
 
 <img alt="Interface Builder" src="Screenshots/InterfaceBuilder.png" width="566">
 
+### Unmanaged or managed
 You can add tag to the tag list view, or set custom font and alignment through code:
 
 ```swift
