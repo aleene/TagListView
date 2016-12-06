@@ -17,7 +17,10 @@ The most convenient way is to use Storyboard. Drag a view to Storyboard and set 
 
 <img alt="Interface Builder" src="Screenshots/InterfaceBuilder.png" width="566">
 
-### Unmanaged or managed
+## Unmanaged or managed approach
+The class can be used in unmanaged and managed mode. In unmanaged mode you add, setup and remove tags by yourself. In managed mode any interaction with the TagListView is handles through delegate- and datasource-functions.
+
+## Unmanaged functions
 You can add tag to the tag list view, or set custom font and alignment through code:
 
 ```swift
@@ -55,6 +58,7 @@ You can find the index of specific tags or titles with:
 - tagListView.indecesForSelectedTags: [Int] {
 - tagListView.indecesWithTag(_ title: String) -> [Int] {
 ```
+## Managed functions
 
 ### Delegate/Datasource functions
 TagViewList support several delegate and datasource functions, which you can use. First setup your viewController as delegate:
