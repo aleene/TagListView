@@ -91,26 +91,27 @@ If you allow the user to move tags:
 func tagListView(_ tagListView: TagListView, targetForMoveFromTagAt sourceIndex: Int, toProposed proposedDestinationIndex: Int) -> Int
 ```
 #### Datasource functions
+```swift
 func tagListView(_ tagListView: TagListView, canEditTagAt index: Int) -> Bool
 func tagListView(_ tagListView: TagListView, canMoveTagAt index: Int) -> Bool
 func tagListView(_ tagListView: TagListView, moveTagAt sourceIndex: Int, to destinationIndex: Int)
-
+```
 ### Layouting tags
 It is also possible to layout the tagViews is a tagListView with:
 ```swift
-tagListView.textColor: UIColor = UIColor.white
-tagListView.selectedTextColor: UIColor = UIColor.white
-tagListView.tagBackgroundColor: UIColor = UIColor.gray
-tagListView.tagHighlightedBackgroundColor: UIColor?
-tagListView.tagSelectedBackgroundColor: UIColor?
-tagListView.cornerRadius: CGFloat = 0
-tagListView.borderWidth: CGFloat = 0
-tagListView.borderColor: UIColor?
+tagListView.textColor = UIColor.white
+tagListView.selectedTextColor = UIColor.white
+tagListView.tagBackgroundColor = UIColor.gray
+tagListView.tagHighlightedBackgroundColor = UIColor.blue
+tagListView.tagSelectedBackgroundColor = UIcolor.green
+tagListView.cornerRadius = 0
+tagListView.borderWidth = 0
+tagListView.borderColor = UIColor.black
 tagListView.selectedBorderColor: UIColor?
-tagListView.paddingY: CGFloat = 2
-tagListView.paddingX: CGFloat = 5
-tagListView.marginY: CGFloat = 2
-tagListView.marginX: CGFloat = 5
+tagListView.vertcalPadding = 2
+tagListView.horizontalPadding = 5
+tagListView.verticalMargin = 2
+tagListView.horizontalMargin = 5
 tagListView.textFont = UIFont.systemFontOfSize(24)
 tagListView.alignment = .Center // possible values are .Left, .Center, and .Right
 tagListView.alignment = UIFont.systemFont(ofSize: 15)
